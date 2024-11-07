@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos en {{ categoria.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'productos/css/style.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{% url 'productos:user_profile' %}">Ver mi perfil</a>
+        <a href="{% url 'productos:lista_categorias' %}">Lista de Categorías</a>
+        <a href="{% url 'productos:logout' %}">Cerrar sesión</a>
+    </nav>
+
+    <div class="container">
+        <h1>Productos en {{ categoria.nombre }}</h1>
+
+        <!-- Campo de búsqueda -->
+        <input type="text" id="searchInput" placeholder="Buscar productos..." class="search-bar">
+
+        <!-- Contenedor de productos -->
+        <div id="productContainer" class="product-grid">
+            {% for producto in productos %}
+                <div class="product-card">
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-image">
+                    <div class="product-info">
+                        <h2 class="product-name">{{ producto.nombre }}</h2>
+                        <p class="price">S/. {{ producto.precio|floatformat:2 }}</p>
+                        <p class="description">{{ producto.descripcion }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No hay productos disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Tu Empresa. Todos los derechos reservados.</p>
+    </footer>
+
+    <!-- JavaScript para el buscador en tiempo real -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchInput");
+            const productContainer = document.getElementById("productContainer");
+            const allProducts = Array.from(productContainer.children);
+
+            searchInput.addEventListener("input", function () {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+
+                const filteredProducts = allProducts.filter(product => {
+                    const productName = product.querySelector(".product-name").innerText.toLowerCase();
+                    return productName.includes(searchTerm);
+                });
+
+                productContainer.innerHTML = "";
+
+                if (filteredProducts.length > 0) {
+                    filteredProducts.forEach(product => productContainer.appendChild(product));
+                } else {
+                    productContainer.innerHTML = "<p>No hay productos disponibles con ese término.</p>";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

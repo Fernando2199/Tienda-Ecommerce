@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="{% static 'productos/css/style.css' %}">
+</head>
+<body>
+    
+    <div class="navbar">
+        <a href="{% url 'productos:user_profile' %}">Ver Perfil</a>
+        <a href="{% url 'productos:lista_categorias' %}">Lista de Categorías</a>
+        <a href="{% url 'productos:logout' %}">Cerrar Sesión</a>
+    </div>
+    
+
+    <div class="container">
+        <h1>Perfil de Usuario</h1>
+        <p><strong>Nombre de usuario:</strong> {{ username }}</p>
+        <p><strong>Nombre:</strong> {{ first_name }}</p>
+        <p><strong>Apellido:</strong> {{ last_name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Teléfono:</strong> {{ phone_number }}</p>
+        
+        <a href="{% url 'productos:edit_profile' %}">Editar perfil</a><br>
+        <a href="{% url 'productos:change_password' %}">Cambiar contraseña</a><br>
+        <a href="{% url 'productos:logout' %}">Cerrar sesión</a>
+    </div>
+</body>
+</html>

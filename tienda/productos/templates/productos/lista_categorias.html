@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Categorías</title>
+    <link rel="stylesheet" href="{% static 'productos/css/style.css' %}">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <a href="{% url 'productos:user_profile' %}">Ver mi perfil</a>
+        <a href="{% url 'productos:logout' %}">Cerrar sesión</a>
+    </nav>
+
+    <div class="container">
+        <h1>Lista de Categorías</h1>
+        
+        <!-- Input de búsqueda -->
+        <input type="text" class="search-input" placeholder="Buscar categorías..." onkeyup="filtrarCategorias()" id="searchCategoryInput">
+        
+        <!-- Lista de categorías -->
+        <ul class="categories-list" id="categoryList">
+            {% for categoria in categorias %}
+                <li><a href="{% url 'productos:productos_por_categoria' categoria.id %}">{{ categoria.nombre }}</a></li>
+            {% empty %}
+                <li>No hay categorías disponibles.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        function filtrarCategorias() {
+            const input = document.getElementById('searchCategoryInput');
+            const filter = input.value.toLowerCase();
+            const categoryList = document.getElementById('categoryList');
+            const categories = categoryList.getElementsByTagName('li');
+            
+            for (let i = 0; i < categories.length; i++) {
+                const category = categories[i].getElementsByTagName("a")[0];
+                const txtValue = category.textContent || category.innerText;
+                
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    categories[i].style.display = "";
+                } else {
+                    categories[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

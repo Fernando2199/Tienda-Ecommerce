@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Perfil</title>
+    <link rel="stylesheet" href="{% static 'productos/css/style.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="{% url 'productos:user_profile' %}">Ver Perfil</a>
+        <a href="{% url 'productos:lista_categorias' %}">Lista de Categorías</a>
+        <a href="{% url 'productos:logout' %}">Cerrar Sesión</a>
+    </div>
+    
+
+    <div class="container">
+        <h1>Editar Perfil</h1>
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label for="username">Nombre de usuario:</label>
+            {{ form.username }}
+
+            <label for="first_name">Nombre:</label>
+            {{ form.first_name }}
+
+            <label for="last_name">Apellidos:</label>
+            {{ form.last_name }}
+
+            <label for="email">Correo Electrónico:</label>
+            {{ form.email }}
+
+            <label for="phone_number">Número de Teléfono:</label>
+            {{ form.phone_number }}
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+        <a href="{% url 'productos:user_profile' %}">Volver al perfil</a>
+    </div>
+</body>
+</html>

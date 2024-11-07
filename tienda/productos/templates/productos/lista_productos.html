@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos en {{ categoria.nombre }}</title>
+    <link rel="stylesheet" href="{% static 'productos/css/style.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="{% url 'productos:user_profile' %}">Ver Perfil</a>
+        <a href="{% url 'productos:lista_categorias' %}">Lista de Categorías</a>
+        <a href="{% url 'productos:logout' %}">Cerrar Sesión</a>
+    </div>
+
+    <div class="container">
+        <h1>Productos en {{ categoria.nombre }}</h1>
+        <div class="product-grid">
+            {% for producto in productos %}
+                <div class="product-card">
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-image">
+                    <div class="product-info">
+                        <h2>{{ producto.nombre }}</h2>
+                        <p class="price">S/. {{ producto.precio|floatformat:2 }}</p>
+                        <p class="description">{{ producto.descripcion }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No hay productos disponibles en esta categoría.</p>
+            {% endfor %}
+        </div>
+        <p><a href="{% url 'productos:lista_categorias' %}">Volver a categorías</a></p>
+    </div>
+</body>
+</html>
